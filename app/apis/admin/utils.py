@@ -2,7 +2,13 @@ import subprocess
 
 
 def get_disk_usage(parameters: str):
-    command = "df -h " + parameters
+    allowed_params = ["-a"]
+    input_param = parameters.strip()
+    for param in input_param:
+        if param not in allowed_params:
+            return "Invalid parameter detected"
+    command = ["df" ,  "-h "]
+    command.extend(input_param)
 
     try:
         result = subprocess.run(
