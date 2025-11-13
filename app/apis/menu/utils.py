@@ -1,12 +1,19 @@
 import base64
 
 import requests
+from urllib.parse import urlparse
 from apis.menu import schemas
 from db.models import MenuItem
 from fastapi import HTTPException
 
 
 def _image_url_to_base64(image_url: str):
+    parsed_url = urlparse(image_url)
+    if parsed_url.netloc != "images.restaurant-api.com":
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid image URL domain. Only images from images.restaurant-api.com are allowed.",
+        )  
     response = requests.get(image_url, stream=True)
     encoded_image = base64.b64encode(response.content).decode()
 
