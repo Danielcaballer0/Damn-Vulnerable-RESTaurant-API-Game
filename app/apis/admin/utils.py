@@ -17,5 +17,4 @@ def get_disk_usage(parameters: str):
         usage = result.stdout.strip().decode()
     except:
         raise Exception("An unexpected error was observed")
-
-    return usage
+    return usage
